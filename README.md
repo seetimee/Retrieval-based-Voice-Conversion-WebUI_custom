@@ -9,7 +9,9 @@
 
 [![Open In Colab](https://img.shields.io/badge/Colab-F9AB00?style=for-the-badge&logo=googlecolab&color=525252)](https://colab.research.google.com/github/liujing04/Retrieval-based-Voice-Conversion-WebUI/blob/main/Retrieval_based_Voice_Conversion_WebUI.ipynb)
 [![Licence](https://img.shields.io/github/license/liujing04/Retrieval-based-Voice-Conversion-WebUI?style=for-the-badge)](https://github.com/liujing04/Retrieval-based-Voice-Conversion-WebUI/blob/main/%E4%BD%BF%E7%94%A8%E9%9C%80%E9%81%B5%E5%AE%88%E7%9A%84%E5%8D%8F%E8%AE%AE-LICENSE.txt)
-[![Huggingface](https://img.shields.io/badge/🤗%20-Spaces-blue.svg?style=for-the-badge)](https://huggingface.co/lj1995/VoiceConversionWebUI/tree/main/)
+[![Huggingface](https://img.shields.io/badge/🤗%20-Spaces-yellow.svg?style=for-the-badge)](https://huggingface.co/lj1995/VoiceConversionWebUI/tree/main/)
+
+[![Discord](https://img.shields.io/badge/RVC%20Developers-Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/HcsmBBGyVk)
 
 </div>
 
@@ -17,7 +19,8 @@
 
 [**更新日志**](https://github.com/liujing04/Retrieval-based-Voice-Conversion-WebUI/blob/main/Changelog_CN.md)
 
-[**English**](./README.en.md) | [**中文简体**](./README.md) | [**日本語**](./README.ja.md)
+[**English**](./docs/README.en.md) | [**中文简体**](./README.md) | [**日本語**](./docs/README.ja.md) | [**한국어**](./docs/README.ko.md) ([**韓國語**](./docs/README.ko.han.md))
+
 
 > 点此查看我们的[演示视频](https://www.bilibili.com/video/BV1pm4y1z7Gm/) !
 
@@ -58,7 +61,7 @@ poetry install
 
 你也可以通过pip来安装依赖：
 
-**注意**: `MacOS`下`faiss 1.7.2`版本会导致抛出段错误，请将`requirements.txt`的对应条目改为`faiss-cpu==1.7.0`
+**注意**: `MacOS`下`faiss 1.7.2`版本会导致抛出段错误，在手动安装时请使用命令`pip install faiss-cpu==1.7.0`指定使用`1.7.0`版本
 
 ```bash
 pip install -r requirements.txt
@@ -77,8 +80,10 @@ hubert_base.pt
 
 ./uvr5_weights
 
-#如果你正在使用Windows，则你可能需要这个文件，若ffmpeg已安装则跳过
+#如果你正在使用Windows，则你可能需要这个文件，若ffmpeg和ffprobe已安装则跳过; ubuntu/debian 用户可以通过apt install ffmpeg来安装这2个库
 ./ffmpeg
+
+./ffprobe
 ```
 之后使用以下指令来启动WebUI:
 ```bash
