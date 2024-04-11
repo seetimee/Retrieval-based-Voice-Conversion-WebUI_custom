@@ -160,6 +160,7 @@ for name in os.listdir(weight_uvr5_root):
 
 def change_choices():
     names = []
+    print('weight_root:', weight_root)
     for name in os.listdir(weight_root):
         if name.endswith(".pth"):
             names.append(name)
@@ -815,12 +816,13 @@ with gr.Blocks(title='换声音') as app:
     with gr.Tabs():
         with gr.TabItem(i18n("模型推理")):
             with gr.Row():
-                sid0 = gr.Dropdown(label=i18n("推理音色"), choices=sorted(names))
+                print('names:',names)
+                sid0 = gr.Dropdown(label=i18n("模型"), choices=sorted(names), interactive=True)
                 with gr.Column():
                     refresh_button = gr.Button(
                         i18n("刷新音色列表和索引路径"), variant="primary"
                     )
-                    clean_button = gr.Button(i18n("卸载音色省显存"), variant="primary")
+                    # clean_button = gr.Button(i18n("卸载音色省显存"), variant="primary")
                 spk_item = gr.Slider(
                     minimum=0,
                     maximum=2333,
@@ -830,9 +832,9 @@ with gr.Blocks(title='换声音') as app:
                     visible=False,
                     interactive=True,
                 )
-                clean_button.click(
-                    fn=clean, inputs=[], outputs=[sid0], api_name="infer_clean"
-                )
+                # clean_button.click(
+                #     fn=clean, inputs=[], outputs=[sid0], api_name="infer_clean"
+                # )
             with gr.TabItem(i18n("单次推理")):
                 with gr.Group():
                     with gr.Row():
