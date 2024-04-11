@@ -828,7 +828,7 @@ with gr.Blocks(title='换声音') as app:
                     label=i18n("选择模型后请等1-2秒，等模型加载完毕后再操作"),
                     value=0,
                     visible=False,
-                    interactive=False,
+                    interactive=True,
                 )
                 clean_button.click(
                     fn=clean, inputs=[], outputs=[sid0], api_name="infer_clean"
