@@ -967,65 +967,65 @@ with gr.Blocks(title="RVC WebUI") as app:
                         )
             with gr.TabItem(i18n("批量推理")):
                 gr.Markdown(
-<<<<<<< HEAD
-                    value=i18n("男转女推荐+12key, 女转男推荐-12key, 如果音域爆炸导致音色失真也可以自己调整到合适音域. ")
-                )
-                with gr.Row():
-                    with gr.Column():
-                        vc_transform0 = gr.Number(
-                            label=i18n("变调(整数, 半音数量, 升八度12降八度-12)"), value=0
-                        )
-                        # input_audio0 = gr.Textbox(
-                            # label=i18n("输入待处理音频文件路径(默认是正确格式示例)"),
-                            # value="E:\\codes\\py39\\vits_vc_gpu_train\\todo-songs\\冬之花clip1.wav",
-                        # )
-                        input_audio0 = gr.Audio(type='filepath',label="输入待处理音频文件路径(默认是正确格式示例)")
-                        f0method0 = gr.Radio(
-                            label=i18n("选择音高提取算法,输入歌声可用pm提速,harvest低音好但巨慢无比"),
-                            choices=["pm", "harvest"],
-                            value="pm",
-                            interactive=True,
-                        )
-                    with gr.Column():
-                        file_index1 = gr.Textbox(
-                            label=i18n("特征检索库文件路径"),
-                            value="/data2/stephen/Retrieval-based-Voice-Conversion-WebUI/logs/jason2/total_fea.npy",
-                            interactive=True,
-                        )
-                        # file_big_npy1 = gr.Textbox(
-                        #     label=i18n("特征文件路径"),
-                        #     value="E:\\codes\py39\\vits_vc_gpu_train\\logs\\mi-test-1key\\total_fea.npy",
-                        #     interactive=True,
-                        # )
-                        index_rate1 = gr.Slider(
-                            minimum=0,
-                            maximum=1,
-                            label=i18n("检索特征占比"),
-                            value=0.76,
-                            interactive=True,
-                        )
-                    f0_file = gr.File(label=i18n("F0曲线文件, 可选, 一行一个音高, 代替默认F0及升降调"))
-                    but0 = gr.Button(i18n("转换"), variant="primary")
-                    with gr.Column():
-                        vc_output1 = gr.Textbox(label=i18n("输出信息"))
-                        vc_output2 = gr.Audio(label=i18n("输出音频(右下角三个点,点了可以下载)"))
-                    but0.click(
-                        vc_single,
-                        [
-                            spk_item,
-                            input_audio0,
-                            vc_transform0,
-                            f0_file,
-                            f0method0,
-                            file_index1,
-                            # file_big_npy1,
-                            index_rate1,
-                        ],
-                        [vc_output1, vc_output2],
-=======
+# <<<<<<< HEAD
+#                     value=i18n("男转女推荐+12key, 女转男推荐-12key, 如果音域爆炸导致音色失真也可以自己调整到合适音域. ")
+#                 )
+#                 with gr.Row():
+#                     with gr.Column():
+#                         vc_transform0 = gr.Number(
+#                             label=i18n("变调(整数, 半音数量, 升八度12降八度-12)"), value=0
+#                         )
+#                         # input_audio0 = gr.Textbox(
+#                             # label=i18n("输入待处理音频文件路径(默认是正确格式示例)"),
+#                             # value="E:\\codes\\py39\\vits_vc_gpu_train\\todo-songs\\冬之花clip1.wav",
+#                         # )
+#                         input_audio0 = gr.Audio(type='filepath',label="输入待处理音频文件路径(默认是正确格式示例)")
+#                         f0method0 = gr.Radio(
+#                             label=i18n("选择音高提取算法,输入歌声可用pm提速,harvest低音好但巨慢无比"),
+#                             choices=["pm", "harvest"],
+#                             value="pm",
+#                             interactive=True,
+#                         )
+#                     with gr.Column():
+#                         file_index1 = gr.Textbox(
+#                             label=i18n("特征检索库文件路径"),
+#                             value="/data2/stephen/Retrieval-based-Voice-Conversion-WebUI/logs/jason2/total_fea.npy",
+#                             interactive=True,
+#                         )
+#                         # file_big_npy1 = gr.Textbox(
+#                         #     label=i18n("特征文件路径"),
+#                         #     value="E:\\codes\py39\\vits_vc_gpu_train\\logs\\mi-test-1key\\total_fea.npy",
+#                         #     interactive=True,
+#                         # )
+#                         index_rate1 = gr.Slider(
+#                             minimum=0,
+#                             maximum=1,
+#                             label=i18n("检索特征占比"),
+#                             value=0.76,
+#                             interactive=True,
+#                         )
+#                     f0_file = gr.File(label=i18n("F0曲线文件, 可选, 一行一个音高, 代替默认F0及升降调"))
+#                     but0 = gr.Button(i18n("转换"), variant="primary")
+#                     with gr.Column():
+#                         vc_output1 = gr.Textbox(label=i18n("输出信息"))
+#                         vc_output2 = gr.Audio(label=i18n("输出音频(右下角三个点,点了可以下载)"))
+#                     but0.click(
+#                         vc_single,
+#                         [
+#                             spk_item,
+#                             input_audio0,
+#                             vc_transform0,
+#                             f0_file,
+#                             f0method0,
+#                             file_index1,
+#                             # file_big_npy1,
+#                             index_rate1,
+#                         ],
+#                         [vc_output1, vc_output2],
+# =======
                     value=i18n(
                         "批量转换, 输入待转换音频文件夹, 或上传多个音频文件, 在指定文件夹(默认opt)下输出转换的音频. "
->>>>>>> main
+# >>>>>>> main
                     )
                 )
                 with gr.Row():
