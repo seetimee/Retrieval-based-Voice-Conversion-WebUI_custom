@@ -1031,12 +1031,23 @@ def export_onnx(ModelPath, ExportedPath, MoeVS=True):
         )
     return "Finished"
 
+index_paths=[]
+def lookup_indices(index_root='logs'):
+    global index_paths
+    for root, dirs, files in os.walk(index_root, topdown=False):
+        for name in files:
+            if name.endswith(".index") and "trained" not in name:
+                index_paths.append("%s/%s" % (root, name))
+lookup_indices()
+lookup_indices('assets/indices')
 def change_index(name):
     name=name.replace('.pth','')
-    return_name=f'/data2/stephen/Retrieval-based-Voice-Conversion-WebUI/logs/{name}/total_fea.npy'
+    # return_name=f'/data2/stephen/Retrieval-based-Voice-Conversion-WebUI/logs/{name}/total_fea.npy'
+    for path in index_paths:
+        if name in path:
+            return_name=path
     print('return_name:',return_name)
     return return_name
-
 with gr.Blocks(title='换声音') as app:
     with gr.Tabs():
         with gr.TabItem(i18n("模型推理")):
@@ -1118,67 +1129,67 @@ with gr.Blocks(title='换声音') as app:
                         ],
                         [vc_output1, vc_output2],
                     )
-            with gr.Group(visible=False):
-                gr.Markdown(
-                    value=i18n("批量转换, 输入待转换音频文件夹, 或上传多个音频文件, 在指定文件夹(默认opt)下输出转换的音频. ")
-                )
-                with gr.Row():
-                    with gr.Column():
-                        vc_transform1 = gr.Number(
-                            label=i18n("变调(整数, 半音数量, 升八度12降八度-12)"), value=0
-                        )
-                        opt_input = gr.Textbox(label=i18n("指定输出文件夹"), value="opt")
-                        f0method1 = gr.Radio(
-                            label=i18n("选择音高提取算法,输入歌声可用pm提速,harvest低音好但巨慢无比"),
-                            choices=["pm", "harvest"],
-                            value="pm",
-                            interactive=True,
-                        )
-                    with gr.Column():
-                        file_index2 = gr.Textbox(
-                            label=i18n("特征检索库文件路径"),
-                            value="E:\\codes\\py39\\vits_vc_gpu_train\\logs\\mi-test-1key\\added_IVF677_Flat_nprobe_7.index",
-                            interactive=True,
-                        )
+            # with gr.Group(visible=False):
+                # gr.Markdown(
+                    # value=i18n("批量转换, 输入待转换音频文件夹, 或上传多个音频文件, 在指定文件夹(默认opt)下输出转换的音频. ")
+                # )
+                # with gr.Row():
+                    # with gr.Column():
+                        # vc_transform1 = gr.Number(
+                            # label=i18n("变调(整数, 半音数量, 升八度12降八度-12)"), value=0
+                        # )
+                        # opt_input = gr.Textbox(label=i18n("指定输出文件夹"), value="opt")
+                        # f0method1 = gr.Radio(
+                            # label=i18n("选择音高提取算法,输入歌声可用pm提速,harvest低音好但巨慢无比"),
+                            # choices=["pm", "harvest"],
+                            # value="pm",
+                            # interactive=True,
+                        # )
+                    # with gr.Column():
+                        # file_index2 = gr.Textbox(
+                            # label=i18n("特征检索库文件路径"),
+                            # value="E:\\codes\\py39\\vits_vc_gpu_train\\logs\\mi-test-1key\\added_IVF677_Flat_nprobe_7.index",
+                            # interactive=True,
+                        # )
 
                         # file_big_npy2 = gr.Textbox(
-                        #     label=i18n("特征文件路径"),
-                        #     value="E:\\codes\\py39\\vits_vc_gpu_train\\logs\\mi-test-1key\\total_fea.npy",
-                        #     interactive=True,
+                            # label=i18n("特征文件路径"),
+                            # value="E:\\codes\\py39\\vits_vc_gpu_train\\logs\\mi-test-1key\\total_fea.npy",
+                            # interactive=True,
                         # )
-                        index_rate2 = gr.Slider(
-                            minimum=0,
-                            maximum=1,
-                            label=i18n("检索特征占比"),
-                            value=1,
-                            interactive=True,
-                        )
-                    with gr.Column():
-                        dir_input = gr.Textbox(
-                            label=i18n("输入待处理音频文件夹路径(去文件管理器地址栏拷就行了)"),
-                            value="E:\codes\py39\\vits_vc_gpu_train\\todo-songs",
-                        )
-                        inputs = gr.File(
-                            file_count="multiple", label=i18n("也可批量输入音频文件, 二选一, 优先读文件夹")
-                        )
-                    but1 = gr.Button(i18n("转换"), variant="primary")
-                    vc_output3 = gr.Textbox(label=i18n("输出信息"))
+                        # index_rate2 = gr.Slider(
+                            # minimum=0,
+                            # maximum=1,
+                            # label=i18n("检索特征占比"),
+                            # value=1,
+                            # interactive=True,
+                        # )
+                    # with gr.Column():
+                        # dir_input = gr.Textbox(
+                            # label=i18n("输入待处理音频文件夹路径(去文件管理器地址栏拷就行了)"),
+                            # value="E:\codes\py39\\vits_vc_gpu_train\\todo-songs",
+                        # )
+                        # inputs = gr.File(
+                            # file_count="multiple", label=i18n("也可批量输入音频文件, 二选一, 优先读文件夹")
+                        # )
+                    # but1 = gr.Button(i18n("转换"), variant="primary")
+                    # vc_output3 = gr.Textbox(label=i18n("输出信息"))
 
-                    but1.click(
-                        vc_multi,
-                        [
-                            spk_item,
-                            dir_input,
-                            opt_input,
-                            inputs,
-                            vc_transform1,
-                            f0method1,
-                            file_index2,
+                    # but1.click(
+                        # vc_multi,
+                        # [
+                            # spk_item,
+                            # dir_input,
+                            # opt_input,
+                            # inputs,
+                            # vc_transform1,
+                            # f0method1,
+                            # file_index2,
                             # file_big_npy2,
-                            index_rate2,
-                        ],
-                        [vc_output3],
-                    )
+                            # index_rate2,
+                        # ],
+                        # [vc_output3],
+                    # )
         # with gr.TabItem(i18n("伴奏人声分离"),visible=False):
         #     with gr.Group():
         #         gr.Markdown(
