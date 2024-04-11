@@ -26,7 +26,12 @@ import json
 from time import sleep
 from subprocess import Popen
 from random import shuffle
-os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+import warnings
+import traceback
+import threading
+import shutil
+import logging
+
 
 logging.getLogger("numba").setLevel(logging.WARNING)
 logging.getLogger("httpx").setLevel(logging.WARNING)
