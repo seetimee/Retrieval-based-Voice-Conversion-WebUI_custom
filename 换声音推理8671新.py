@@ -1673,6 +1673,6 @@ with gr.Blocks(title='换声音') as app:
         app.queue(concurrency_count=511, max_size=1022).launch(#share=True,   #.queue(concurrency_count=511, max_size=1022)
             server_name="0.0.0.0",
             inbrowser=not config.noautoopen,
-            server_port=config.listen_port,
+            server_port=8671,
             quiet=True,
         )
