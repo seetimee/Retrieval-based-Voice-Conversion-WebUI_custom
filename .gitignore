@@ -7,3 +7,7 @@ hubert_base.pt
 /data
 *.log
 rmvpe.pt
+audio_input/
+opt/
+input_audio/
+output_audio/

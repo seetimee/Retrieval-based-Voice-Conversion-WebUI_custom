@@ -4,6 +4,9 @@ from time import sleep
 from subprocess import Popen
 from time import sleep
 import torch, os, traceback, sys, warnings, shutil, numpy as np
+if not os.path.exists('./audio_input'):
+	os.makedirs('./audio_input')
+os.environ['GRADIO_TEMP_DIR'] = './audio_input'
 import faiss
 from random import shuffle
 os.environ["CUDA_VISIBLE_DEVICES"] = "2"
@@ -19,7 +22,7 @@ os.environ["TEMP"] = tmp
 warnings.filterwarnings("ignore")
 torch.manual_seed(114514)
 from i18n import I18nAuto
-import ffmpeg
+import ffmpeg,shutil
 
 i18n = I18nAuto()
 # 判断是否有能用来训练和加速推理的N卡
@@ -138,6 +141,12 @@ def vc_single(
     global tgt_sr, net_g, vc, hubert_model
     if input_audio is None:
         return "You need to upload an audio", None
+    #复制音频文件到./input_audio
+    # 目标目录路径
+    target_directory = './input_audio'
+    # 创建目标目录（如果不存在）
+    os.makedirs(target_directory, exist_ok=True)
+    shutil.copy2(input_audio, target_directory)
     f0_up_key = int(f0_up_key)
     try:
         audio = load_audio(input_audio, 16000)
@@ -173,6 +182,14 @@ def vc_single(
         print(
             "npy: ", times[0], "s, f0: ", times[1], "s, infer: ", times[2], "s", sep=""
         )
+        #复制音频文件到./output_audio
+        # 目标目录路径
+        out_put_target_directory = './output_audio'
+        # 创建目标目录（如果不存在）
+        os.makedirs(out_put_target_directory, exist_ok=True)
+        #audio_opt numpy.ndarray转wav文件
+        audio_opt_path = os.path.join(out_put_target_directory, os.path.basename(input_audio))
+        wavfile.write(audio_opt_path, 16000, audio_opt)
         return "Success", (tgt_sr, audio_opt)
     except:
         info = traceback.format_exc()
@@ -1072,13 +1089,13 @@ with gr.Blocks(title='换声音') as app:
                     outputs=[spk_item],
                 )
             with gr.Group():
-                gr.Markdown(
-                    value=i18n("男转女推荐+12key, 女转男推荐-12key, 普通转换为0就好 ")
-                )
+                # gr.Markdown(
+                #     value=i18n("男转女推荐+12key, 女转男推荐-12key, 普通转换为0就好 ")
+                # )
                 with gr.Row():
                     with gr.Column():
                         vc_transform0 = gr.Number(
-                            label=i18n("变调(整数, 半音数量, 升八度12降八度-12)"), value=0
+                            label=i18n("变调(整数, 半音数量, 升八度12降八度-12)"), value=0,visible=False
                         )
                         # input_audio0 = gr.Textbox(
                             # label=i18n("输入待处理音频文件路径(默认是正确格式示例)"),
@@ -1106,8 +1123,8 @@ with gr.Blocks(title='换声音') as app:
                         index_rate1 = gr.Slider(
                             minimum=0,
                             maximum=1,
-                            label=i18n("检索特征占比"),
-                            value=0.76,
+                            label=i18n("相似度：越大音色越像，但音质的稳定性会降低"),
+                            value=0.1,
                             interactive=True,visible=False
                         )
                     f0_file = gr.File(label=i18n("F0曲线文件, 可选, 一行一个音高, 代替默认F0及升降调"),visible=False)
